@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile Retro Apps</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Home View -->
+        <section id="home-view" class="view active">
+            <div class="container">
+                <header class="app-header">
+                    <h1>Agile Retro Apps</h1>
+                    <p class="subtitle">Sprint retrospectives and scrum poker for your team.</p>
+                </header>
+
+                <div class="card create-session-card">
+                    <h2>Create New Session</h2>
+                    <form id="create-session-form">
+                        <div class="form-group">
+                            <label for="session-name">Session Name</label>
+                            <input type="text" id="session-name" placeholder="e.g. Sprint 42 Retro" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="poker-scale">Poker Scale</label>
+                            <select id="poker-scale">
+                                <option value="fibonacci">Fibonacci (1, 2, 3, 5, 8, 13, 21)</option>
+                                <option value="tshirt">T-Shirt (XS, S, M, L, XL)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Session</button>
+                    </form>
+                </div>
+
+                <div class="sessions-list">
+                    <h2>Sessions</h2>
+                    <div id="sessions-container">
+                        <p class="empty-state">Loading sessions...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Join View -->
+        <section id="join-view" class="view">
+            <div class="container center-content">
+                <div class="card join-card">
+                    <h2>Join Session</h2>
+                    <p id="join-session-name" class="session-label"></p>
+                    <form id="join-form">
+                        <div class="form-group">
+                            <label for="participant-name">Your Name</label>
+                            <input type="text" id="participant-name" placeholder="Enter your name" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Join</button>
+                        <button type="button" class="btn btn-secondary" onclick="App.showView('home')">Back</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hub View -->
+        <section id="hub-view" class="view">
+            <div class="hub-header">
+                <div class="hub-header-left">
+                    <button class="btn btn-small btn-secondary" onclick="App.leaveSession()">Leave</button>
+                    <h2 id="hub-session-name"></h2>
+                    <span id="hub-owner-badge" class="badge badge-owner" style="display:none">Owner</span>
+                </div>
+                <div class="hub-header-right">
+                    <div id="hub-participants" class="participant-list"></div>
+                </div>
+            </div>
+            <div class="hub-tabs">
+                <button class="tab-btn active" data-tab="retro" onclick="App.switchTab('retro')">Retro Board</button>
+                <button class="tab-btn" data-tab="poker" onclick="App.switchTab('poker')">Scrum Poker</button>
+            </div>
+            <div id="hub-content">
+                <div id="retro-view" class="tab-content active"></div>
+                <div id="poker-view" class="tab-content"></div>
+            </div>
+        </section>
+
+        <!-- History View -->
+        <section id="history-view" class="view">
+            <div class="container">
+                <button class="btn btn-secondary" onclick="App.showView('home')">Back to Home</button>
+                <div id="history-content"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/retro.js"></script>
+    <script src="/static/js/poker.js"></script>
+    <script src="/static/js/history.js"></script>
+</body>
+</html>

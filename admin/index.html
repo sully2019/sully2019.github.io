@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin — Sullivan Family Hub</title>
+    <link rel="stylesheet" href="../styles/shared.css" />
+    <style>
+      .section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow);
+      }
+      .section h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .req-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+      .req-row:last-child {
+        border-bottom: none;
+      }
+      .req-info .who {
+        font-weight: 600;
+      }
+      .req-info .meta {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .req-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f0eee8;
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 13px;
+      }
+      .chip button {
+        all: unset;
+        cursor: pointer;
+        color: var(--muted);
+        font-weight: 700;
+        padding: 0 4px;
+        min-height: 0;
+      }
+      .chip button:hover {
+        color: var(--danger);
+      }
+      .add-row {
+        display: flex;
+        gap: 8px;
+      }
+      .add-row input {
+        flex: 1;
+      }
+      details.history {
+        margin-top: 8px;
+      }
+      details.history summary {
+        cursor: pointer;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .empty-row {
+        color: var(--muted);
+        padding: 12px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="site-header">
+        <div>
+          <p class="subtitle"><a href="../">← Family Hub</a></p>
+          <h1>Admin</h1>
+        </div>
+        <div class="auth-bar">
+          <span class="who" id="who"></span>
+          <button id="signin-btn" class="primary hidden">
+            Sign in with Google
+          </button>
+          <button id="signout-btn" class="hidden">Sign out</button>
+        </div>
+      </header>
+
+      <div id="gate" class="notice warn hidden">
+        <strong>Admin access required.</strong>
+        <p id="gate-msg">Sign in with the admin Google account.</p>
+      </div>
+
+      <div id="admin-body" class="hidden">
+        <section class="section">
+          <h2>Pending requests</h2>
+          <div id="pending-list"></div>
+        </section>
+
+        <section class="section">
+          <h2>Allowlist</h2>
+          <div id="chips" class="chips"></div>
+          <form id="add-form" class="add-row">
+            <input
+              id="add-email"
+              type="email"
+              placeholder="add-email@example.com"
+              required
+            />
+            <button type="submit" class="primary">Add</button>
+          </form>
+        </section>
+
+        <section class="section">
+          <h2>History</h2>
+          <details class="history">
+            <summary>Approved &amp; denied requests</summary>
+            <div id="history-list" style="margin-top:10px;"></div>
+          </details>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>India Trip Planner — Sullivan Family Hub</title>
+    <link rel="stylesheet" href="../styles/shared.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="site-header">
+        <div>
+          <p class="subtitle"><a href="../">← Family Hub</a></p>
+          <h1>India Trip</h1>
+        </div>
+        <div class="auth-bar">
+          <span class="who" id="who"></span>
+          <button id="signin-btn" class="primary hidden">
+            Sign in with Google
+          </button>
+          <button id="signout-btn" class="hidden">Sign out</button>
+        </div>
+      </header>
+
+      <section class="trip-summary">
+        <div class="stat">
+          <span class="label">Date range</span>
+          <span class="value" id="stat-dates">—</span>
+        </div>
+        <div class="stat">
+          <span class="label">Entries</span>
+          <span class="value" id="stat-count">0</span>
+        </div>
+        <div class="stat">
+          <span class="label">Estimated cost</span>
+          <span class="value" id="stat-cost">—</span>
+        </div>
+      </section>
+
+      <div id="access-notice" class="notice hidden"></div>
+
+      <div class="toolbar">
+        <button
+          id="add-entry-btn"
+          class="primary hidden"
+          title="Add itinerary entry"
+        >
+          + Add entry
+        </button>
+      </div>
+
+      <div id="timeline"></div>
+
+      <div id="modal-root"></div>
+    </main>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

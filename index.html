@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sullivan Family Hub</title>
+    <link rel="stylesheet" href="styles/shared.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="site-header">
+        <div>
+          <h1>Sullivan Family Hub</h1>
+          <p class="subtitle">Shared apps and trip plans</p>
+        </div>
+        <div class="auth-bar">
+          <span class="who" id="who"></span>
+          <button id="signin-btn" class="primary hidden">
+            Sign in with Google
+          </button>
+          <button id="signout-btn" class="hidden">Sign out</button>
+        </div>
+      </header>
+
+      <section class="cards">
+        <a class="card" href="india-trip/">
+          <h2>India Trip Planner</h2>
+          <p>Day-by-day itinerary for the family trip to India.</p>
+        </a>
+
+        <a class="card hidden" id="admin-card" href="admin/">
+          <h2>Admin</h2>
+          <p>Manage allowlist and access requests.</p>
+          <span class="badge hidden" id="admin-badge">0</span>
+        </a>
+      </section>
+    </main>
+
+    <script type="module">
+      import {
+        signIn,
+        signOutUser,
+        onAuthStateChanged,
+        isAdmin,
+        watchPendingRequestCount,
+      } from "./js/access.js";
+      import { auth } from "./js/firebase-config.js";
+
+      const whoEl = document.getElementById("who");
+      const signInBtn = document.getElementById("signin-btn");
+      const signOutBtn = document.getElementById("signout-btn");
+      const adminCard = document.getElementById("admin-card");
+      const adminBadge = document.getElementById("admin-badge");
+
+      signInBtn.addEventListener("click", () =>
+        signIn().catch((e) => alert("Sign-in failed: " + e.message)),
+      );
+      signOutBtn.addEventListener("click", () => signOutUser());
+
+      let unsubPending = null;
+
+      onAuthStateChanged(auth, (user) => {
+        if (unsubPending) {
+          unsubPending();
+          unsubPending = null;
+        }
+        if (user) {
+          whoEl.textContent = user.displayName || user.email;
+          signInBtn.classList.add("hidden");
+          signOutBtn.classList.remove("hidden");
+          if (isAdmin(user)) {
+            adminCard.classList.remove("hidden");
+            unsubPending = watchPendingRequestCount((n) => {
+              if (n > 0) {
+                adminBadge.textContent = String(n);
+                adminBadge.classList.remove("hidden");
+              } else {
+                adminBadge.classList.add("hidden");
+              }
+            });
+          } else {
+            adminCard.classList.add("hidden");
+          }
+        } else {
+          whoEl.textContent = "";
+          signInBtn.classList.remove("hidden");
+          signOutBtn.classList.add("hidden");
+          adminCard.classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>

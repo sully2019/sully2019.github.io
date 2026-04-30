@@ -11,7 +11,6 @@ import {
   collection,
   query,
   where,
-  orderBy,
   onSnapshot,
   addDoc,
   updateDoc,
@@ -126,15 +125,21 @@ async function renderRequestNotice() {
 }
 
 // Live itinerary subscription — runs regardless of auth state (public read).
+// Note: no server-side orderBy on `date` so the query needs no composite index.
+// We sort client-side instead — fine for the small dataset of a family trip.
 const tripQuery = query(
   collection(db, "itinerary_items"),
   where("tripId", "==", TRIP_ID),
-  orderBy("date", "asc"),
 );
 onSnapshot(
   tripQuery,
   (snap) => {
     items = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    items.sort((a, b) => {
+      const ad = a.date?.toMillis?.() ?? 0;
+      const bd = b.date?.toMillis?.() ?? 0;
+      return ad - bd;
+    });
     rerender();
   },
   (err) => {
